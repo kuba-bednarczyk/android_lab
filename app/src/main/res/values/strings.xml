@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Android App</string>
+    <string name="student_info_title">Student info</string>
+    <string name="first_name_label">First name:</string>
+    <string name="first_name_hint">First name</string>
+    <string name="last_name_label">Last name:</string>
+    <string name="last_name_hint">Last name</string>
+    <string name="grades_label">Grades:</string>
+    <string name="grades_hint">Number of grades [5-15]</string>
+    <string name="button_grades">Grades</string>
+
+    <string name="err_empty_field">This field cannot be empty</string>
+    <string name="err_first_name_empty">First name cannot be empty</string>
+    <string name="err_last_name_empty">Last name cannot be empty</string>
+    <string name="err_grades_range">Grades must be between 5 and 15</string>
+</resources>
