@@ -9,7 +9,10 @@
     <string name="grades_hint">Number of grades [5-15]</string>
     <string name="button_grades">Grades</string>
 
+
+<!--    ERROR MESSAGES: -->
     <string name="err_empty_field">This field cannot be empty</string>
+
     <string name="err_first_name_empty">First name cannot be empty</string>
     <string name="err_last_name_empty">Last name cannot be empty</string>
     <string name="err_grades_range">Grades must be between 5 and 15</string>
