@@ -20,7 +20,7 @@ import java.util.List;
 public class GradesActivity extends AppCompatActivity {
 
     private ActivityGradesBinding binding;
-    private int mGradesCount = 5;
+    private int mGradesCount = 5; //domyslna liczba ocen
     List<Grade> mGradeList;
 
     @Override
@@ -28,7 +28,9 @@ public class GradesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
 
+        // podpiecie bindingu do inflate'era (do wyswietlenia ze strings.xml nazw przedmiotow i ocen)
         binding = ActivityGradesBinding.inflate(getLayoutInflater());
+        // ustawienie bindingu na root element
         setContentView(binding.getRoot());
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -37,11 +39,13 @@ public class GradesActivity extends AppCompatActivity {
             return insets;
         });
 
+        // odczytanie podanej przez uzytkownika liczby ocen
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mGradesCount = extras.getInt("GRADES_COUNT", 5);
         }
 
+        // utworzenie listy z ocenami i odczytanie zachowanego stanu (odczyt ekranu)
         mGradeList = new ArrayList<>();
         String[] subjects = getResources().getStringArray(R.array.subjects);
         if (savedInstanceState != null && savedInstanceState.containsKey("SAVED_GRADES")) {
@@ -56,7 +60,7 @@ public class GradesActivity extends AppCompatActivity {
             }
         }
 
-        // podpiecie adapter
+        // podpiecie adaptera
         binding.gradesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         GradesAdapter adapter = new GradesAdapter(this, mGradeList);
         binding.gradesRecyclerView.setAdapter(adapter);
@@ -67,6 +71,7 @@ public class GradesActivity extends AppCompatActivity {
             finish();
         });
 
+        // obliczenia sredniej i przekazanie danych do intent;
         binding.calculateAverageButton.setOnClickListener(v -> {
             double sum = 0;
             for (Grade g : mGradeList) {
@@ -83,7 +88,6 @@ public class GradesActivity extends AppCompatActivity {
         });
 
     }
-
 
     // zachowanie aktywnosci po odwroceniu ekranu
     @Override

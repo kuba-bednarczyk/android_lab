@@ -17,6 +17,9 @@ import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 // importowanie bindingu
 import com.example.android_app.databinding.ActivityMainBinding;
@@ -31,11 +34,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
 
+
         // podpięcie bindingu
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // zarejestrowanie listenera do drugiej aktywnosci
+        // zarejestrowanie listenera do drugiej aktywnosci z funkcja do handlowania liczenia sredniej
         mGradeActivityLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 this::handleGradesActivityResult
@@ -197,9 +201,10 @@ public class MainActivity extends AppCompatActivity {
             binding.gradesBtn.setVisibility(View.GONE);
         }
     }
+
+
     private void handleGradesActivityResult(ActivityResult result) {
         if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-//            Bundle bundle = result.getData().getExtras();
 
             double average = result.getData().getDoubleExtra("AVERAGE_RESULT", 0.0);
 

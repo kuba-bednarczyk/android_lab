@@ -17,6 +17,7 @@ public class GradesAdapter extends RecyclerView.Adapter<GradesAdapter.GradeViewH
     private List<Grade> mGradeList;
     private LayoutInflater mInflater;
 
+    // konstruktor adaptera
     public GradesAdapter(Context context, List<Grade> gradeList) {
         mInflater = LayoutInflater.from(context);
         this.mGradeList = gradeList;
