@@ -1,6 +1,7 @@
 package com.example.android_app;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,29 +11,37 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 // importowanie bindingu
-import com.example.android_app.databinding.Activity1bBinding;
-
+import com.example.android_app.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Activity1bBinding binding;
-
-
+    private ActivityMainBinding binding;
+    private ActivityResultLauncher<Intent> mGradeActivityLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         EdgeToEdge.enable(this);
 
-        binding = Activity1bBinding.inflate(getLayoutInflater());
+        // podpięcie bindingu
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        setSupportActionBar(binding.materialToolbar);
+        // zarejestrowanie listenera do drugiej aktywnosci
+        mGradeActivityLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                this::handleGradesActivityResult
+        );
+
+        setSupportActionBar(binding.materialToolbar); //podpięcie toolBara jako actionBar
 
         // przywracanie błędów po obrocie ekranu - setError trzeba przywrócić ręcznie
         if (savedInstanceState != null ) {
@@ -126,8 +135,17 @@ public class MainActivity extends AppCompatActivity {
 
         // funkcja pomocznicza dla przycisku
         checkTextFieldsAndShowButton();
-    }
 
+        // uruchomienie aktywności GradesActivity po kliknieciu przycisku gradesBtn
+        binding.gradesBtn.setOnClickListener(v -> {
+            int gradesCount = Integer.parseInt(binding.gradesInput.getText().toString().trim());
+
+            Intent intent = new Intent(MainActivity.this, GradesActivity.class);
+            intent.putExtra("GRADES_COUNT", gradesCount);
+
+            mGradeActivityLauncher.launch(intent);
+        });
+    }
 
     // zapisywanie bledow przed obrotem ekranu
     @Override
@@ -147,8 +165,6 @@ public class MainActivity extends AppCompatActivity {
             outState.putString("ERR_GRADES", binding.gradesInput.getError().toString());
         }
     }
-
-
     private void checkTextFieldsAndShowButton() {
         boolean statusOK = true;
 
@@ -181,5 +197,32 @@ public class MainActivity extends AppCompatActivity {
             binding.gradesBtn.setVisibility(View.GONE);
         }
     }
+    private void handleGradesActivityResult(ActivityResult result) {
+        if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+//            Bundle bundle = result.getData().getExtras();
+
+            double average = result.getData().getDoubleExtra("AVERAGE_RESULT", 0.0);
+
+            String formattedAvg = String.format("%.2f", average);
+            binding.averageTv.setText(getString(R.string.average_label, formattedAvg));
+            binding.averageTv.setVisibility(View.VISIBLE);
+
+            if (average >= 3.0) {
+                binding.gradesBtn.setText(R.string.btn_super);
+                binding.gradesBtn.setOnClickListener(v -> {
+                    Toast.makeText(this, R.string.toast_congrats, Toast.LENGTH_LONG).show();
+                    finish();
+                });
+            } else {
+                binding.gradesBtn.setText(R.string.btn_fail);
+                binding.gradesBtn.setOnClickListener(v -> {
+                    Toast.makeText(this, R.string.toast_fail, Toast.LENGTH_LONG).show();
+                    finish();
+                });
+            }
+        } else if (result.getResultCode() == Activity.RESULT_CANCELED) {
+            Toast.makeText(this, R.string.toast_no_grades, Toast.LENGTH_LONG).show();
+        }
+    };
 
 }

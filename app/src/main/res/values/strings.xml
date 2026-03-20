@@ -10,10 +10,42 @@
     <string name="button_grades">Grades</string>
 
 
-<!--    ERROR MESSAGES: -->
+    <!--    ERROR MESSAGES: -->
     <string name="err_empty_field">This field cannot be empty</string>
 
     <string name="err_first_name_empty">First name cannot be empty</string>
     <string name="err_last_name_empty">Last name cannot be empty</string>
     <string name="err_grades_range">Grades must be between 5 and 15</string>
+
+<!--    Calculated average strings-->
+    <string name="average_label">Your average is: %s</string>
+    <string name="btn_super">Super :)</string>
+    <string name="btn_fail">Tym razem nie poszło</string>
+    <string name="toast_congrats">Gratulacje! Otrzymujesz zaliczenie!</string>
+    <string name="toast_fail">Wysyłam podanie o zaliczenie warunkowe</string>
+    <string name="toast_no_grades">Nie obliczono średniej</string>
+
+<!--    Grades activity strings -->
+    <string name="grades_toolbar_title">Grades</string>
+    <string-array name="subjects">
+        <item>Phys.</item>
+        <item>Math.</item>
+        <item>El.</item>
+        <item>TC</item>
+        <item>PB</item>
+        <item>Java</item>
+        <item>CSF</item>
+        <item>C</item>
+        <item>C++</item>
+        <item>AADS</item>
+        <item>NM</item>
+        <item>PDP</item>
+        <item>MSI</item>
+        <item>PN</item>
+        <item>NI</item>
+    </string-array>
+
+
+
+
 </resources>
