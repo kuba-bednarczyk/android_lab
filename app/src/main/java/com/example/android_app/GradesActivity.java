@@ -30,7 +30,6 @@ public class GradesActivity extends AppCompatActivity {
 
         // podpiecie bindingu do inflate'era (do wyswietlenia ze strings.xml nazw przedmiotow i ocen)
         binding = ActivityGradesBinding.inflate(getLayoutInflater());
-        // ustawienie bindingu na root element
         setContentView(binding.getRoot());
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -39,15 +38,16 @@ public class GradesActivity extends AppCompatActivity {
             return insets;
         });
 
-        // odczytanie podanej przez uzytkownika liczby ocen
+        // odebranie danych z poprzedniego widoku
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mGradesCount = extras.getInt("GRADES_COUNT", 5);
         }
 
-        // utworzenie listy z ocenami i odczytanie zachowanego stanu (odczyt ekranu)
+        // utworzenie listy z przedmiotami i ocenami
         mGradeList = new ArrayList<>();
         String[] subjects = getResources().getStringArray(R.array.subjects);
+        // przywracanie stanu po obrocie ekranu
         if (savedInstanceState != null && savedInstanceState.containsKey("SAVED_GRADES")) {
             double[] savedGrades = savedInstanceState.getDoubleArray("SAVED_GRADES");
 
@@ -55,6 +55,7 @@ public class GradesActivity extends AppCompatActivity {
                 mGradeList.add(new Grade(subjects[i], savedGrades[i]));
             }
         } else {
+            // domyslne wartosci przy pierwszym uruchomieniu ekranu
             for (int i=0; i < mGradesCount; i++) {
                 mGradeList.add(new Grade(subjects[i], 2.0));
             }
@@ -65,13 +66,13 @@ public class GradesActivity extends AppCompatActivity {
         GradesAdapter adapter = new GradesAdapter(this, mGradeList);
         binding.gradesRecyclerView.setAdapter(adapter);
 
-        // cofanie sie do aktywnosci MainActivity
+        //zbindowanie strzalki powortu
         binding.topAppBar.setNavigationOnClickListener(v -> {
             setResult(GradesActivity.RESULT_CANCELED);
             finish();
         });
 
-        // obliczenia sredniej i przekazanie danych do intent;
+        // obliczenia sredniej i przekazanie danych z powrotem do glownego ekranu;
         binding.calculateAverageButton.setOnClickListener(v -> {
             double sum = 0;
             for (Grade g : mGradeList) {
@@ -84,12 +85,11 @@ public class GradesActivity extends AppCompatActivity {
             resultIntent.putExtra("AVERAGE_RESULT", average);
             setResult(GradesActivity.RESULT_OK, resultIntent);
             finish();
-
         });
 
     }
 
-    // zachowanie aktywnosci po odwroceniu ekranu
+    // zachowanie aktywnosci przed odwroceniem ekranu
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);

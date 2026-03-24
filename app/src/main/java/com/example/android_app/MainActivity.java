@@ -27,6 +27,8 @@ import com.example.android_app.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+
+    // result launcher do odbierania i wysylania danych z innej aktywnosci
     private ActivityResultLauncher<Intent> mGradeActivityLauncher;
 
     @Override
@@ -35,11 +37,17 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
 
 
-        // podpięcie bindingu
+        // podpięcie bindingu i inflate'era do wyswietlenia ze strings.xml
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // zarejestrowanie listenera do drugiej aktywnosci z funkcja do handlowania liczenia sredniej
+        ViewCompat.setOnApplyWindowInsetsListener(binding.main, (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
+        // zarejestrowanie listenera do drugiej aktywnosci z funkcja do handlowania liczenia sredniej po powrocie
         mGradeActivityLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 this::handleGradesActivityResult
@@ -47,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.materialToolbar); //podpięcie toolBara jako actionBar
 
-        // przywracanie błędów po obrocie ekranu - setError trzeba przywrócić ręcznie
+        // przywracanie stanu bledow po obrocie ekranu
         if (savedInstanceState != null ) {
             if (savedInstanceState.containsKey("ERR_FIRST")) {
                 binding.firstNameInput.setError(savedInstanceState.getString("ERR_FIRST"));
@@ -66,15 +74,15 @@ public class MainActivity extends AppCompatActivity {
         View.OnFocusChangeListener validateText = new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
+                if (!hasFocus) { // po utraceniu focusa z pola
                     EditText focusedTextField = (EditText) v;
 
                     if (focusedTextField.getText().toString().trim().isEmpty()) {
                         String errMessage = getString(R.string.err_empty_field);
 
-                        if (focusedTextField.getId() == R.id.firstNameInput) {
+                        if (v == binding.firstNameInput) {
                             errMessage = getString(R.string.err_first_name_empty);
-                        } else if (focusedTextField.getId() == R.id.lastNameInput) {
+                        } else if (v == binding.lastNameInput) {
                             errMessage = getString(R.string.err_last_name_empty);
                         }
 
@@ -85,11 +93,12 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
+        // podpiecie listenera pod pola firstName i lastName
         binding.firstNameInput.setOnFocusChangeListener(validateText);
         binding.lastNameInput.setOnFocusChangeListener(validateText);
 
 
-        // walidacja liczby ocen - pokazywanie bledow
+        // walidacja liczby ocen
         binding.gradesInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -100,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
                     if (gradesStr.isEmpty()) {
                         err = true;
                     } else {
-                        try {
+                        try { //try catch
                             int gradesInt = Integer.parseInt(gradesStr);
                             if (gradesInt < 5 || gradesInt > 15) {
                                 err = true;
@@ -201,7 +210,6 @@ public class MainActivity extends AppCompatActivity {
             binding.gradesBtn.setVisibility(View.GONE);
         }
     }
-
 
     private void handleGradesActivityResult(ActivityResult result) {
         if (result.getResultCode() == RESULT_OK && result.getData() != null) {
