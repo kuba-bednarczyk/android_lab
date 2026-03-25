@@ -38,7 +38,7 @@ public class GradesAdapter extends RecyclerView.Adapter<GradesAdapter.GradeViewH
         Grade currentGrade = mGradeList.get(position);
 
         // ustawienie nazwy przedmiotu
-        holder.binding.subjectNameTextView.setText(currentGrade.getName());
+        holder.binding.subjectNameTV.setText(currentGrade.getName());
 
         // ustawienie kliknietego przycisku z oceną
         double g = currentGrade.getGrade();
@@ -56,7 +56,6 @@ public class GradesAdapter extends RecyclerView.Adapter<GradesAdapter.GradeViewH
         return mGradeList.size();
     }
 
-    // pojedynczy wiersz na liscie
     public class GradeViewHolder extends RecyclerView.ViewHolder implements RadioGroup.OnCheckedChangeListener {
         public GradeRowBinding binding;
 

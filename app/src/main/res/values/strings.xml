@@ -26,6 +26,7 @@
 
 <!--    Grades activity strings -->
     <string name="grades_toolbar_title">Grades</string>
+
     <string-array name="subjects">
         <item>Phys.</item>
         <item>Math.</item>
@@ -44,7 +45,11 @@
         <item>NI</item>
     </string-array>
 
-
-
-
+<!--    Rdaio buttons labels-->
+    <string name="radioButton2">2.0</string>
+    <string name="radioButton3">3.0</string>
+    <string name="radioButton35">3.5</string>
+    <string name="radioButton4">4.0</string>
+    <string name="radioButton45">4.5</string>
+    <string name="radioButton5">5.0</string>
 </resources>

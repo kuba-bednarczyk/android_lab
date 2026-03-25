@@ -47,10 +47,10 @@ public class GradesActivity extends AppCompatActivity {
         // utworzenie listy z przedmiotami i ocenami
         mGradeList = new ArrayList<>();
         String[] subjects = getResources().getStringArray(R.array.subjects);
+
         // przywracanie stanu po obrocie ekranu
         if (savedInstanceState != null && savedInstanceState.containsKey("SAVED_GRADES")) {
             double[] savedGrades = savedInstanceState.getDoubleArray("SAVED_GRADES");
-
             for (int i = 0; i < mGradesCount; i++) {
                 mGradeList.add(new Grade(subjects[i], savedGrades[i]));
             }
@@ -66,7 +66,7 @@ public class GradesActivity extends AppCompatActivity {
         GradesAdapter adapter = new GradesAdapter(this, mGradeList);
         binding.gradesRecyclerView.setAdapter(adapter);
 
-        //zbindowanie strzalki powortu
+        //zbindowanie strzalki powrotu
         binding.topAppBar.setNavigationOnClickListener(v -> {
             setResult(GradesActivity.RESULT_CANCELED);
             finish();
