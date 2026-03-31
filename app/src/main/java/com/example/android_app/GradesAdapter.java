@@ -30,7 +30,6 @@ public class GradesAdapter extends RecyclerView.Adapter<GradesAdapter.GradeViewH
         return new GradeViewHolder(GradeRowBinding.inflate(mInflater, parent, false));
     }
 
-
     // onBindViewHolder - wypelnianie danymi holdera
     @Override
     public void onBindViewHolder(@NonNull GradeViewHolder holder, int position) {

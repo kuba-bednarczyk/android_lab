@@ -4,34 +4,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    >
+    android:padding="8dp">
 
     <TextView
         android:id="@+id/subjectNameTV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Subject Name"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/gradesRadioGroup"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_weight="1" />
     <RadioGroup
         android:id="@+id/gradesRadioGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp" android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintStart_toEndOf="@+id/subjectNameTV"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_weight="5">
 
-        <RadioButton android:id="@+id/radioButton2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/radioButton2" />
-        <RadioButton android:id="@+id/radioButton3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/radioButton3" />
-        <RadioButton android:id="@+id/radioButton35" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/radioButton35" />
-        <RadioButton android:id="@+id/radioButton4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/radioButton4" />
-        <RadioButton android:id="@+id/radioButton45" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/radioButton45" />
-        <RadioButton android:id="@+id/radioButton5" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/radioButton5" />
-    </RadioGroup>
+        <RadioButton android:id="@+id/radioButton2" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/radioButton2" />
+        <RadioButton android:id="@+id/radioButton3" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/radioButton3" />
+        <RadioButton android:id="@+id/radioButton35" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/radioButton35" />
+        <RadioButton android:id="@+id/radioButton4" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/radioButton4" />
+        <RadioButton android:id="@+id/radioButton45" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/radioButton45" />
+        <RadioButton android:id="@+id/radioButton5" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:text="@string/radioButton5" />
+</RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
